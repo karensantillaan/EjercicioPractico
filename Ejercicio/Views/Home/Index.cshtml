@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Ejercicio Práctico";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+@using (Html.BeginForm("CargarExcel", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Subir Archivo</h2>
+                <input name="file" id="file" type="file" class="input-file" />
+                <button type="submit" id="uploadFile" class="btn btn-primary"> Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+    @section Scripts {
+        <script>
+        $(document).ready(function () {
+            $(document).on("click", "#uploadFile", function () {
+                var path = $("#file").val();
+                $.ajax({
+                    async: false,
+                    type: 'GET',
+                    url: "@Url.Action("CargarExcel")",
+                    data: { 'path': path },
+                    processData: false,
+                    cache: false,
+                    success: function () {
+                        alert('Se cargó correctamente');
+                    },
+                    error: function (xhr, status) {
+                        alert('Ocurrió un error');
+                    }
+                });
+            });
+        });
+        </script>
+    }
