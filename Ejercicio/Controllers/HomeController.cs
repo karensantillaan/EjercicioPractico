@@ -1,16 +1,8 @@
-﻿using ClosedXML.Excel;
-using Ejercicio.Models;
-using Newtonsoft.Json;
-using System;
+﻿using Ejercicio.Models;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-//using Microsoft.Office.Interop.Excel;
-using System.Web.Http;
 using System.Data.OleDb;
 using System.Data;
 
@@ -40,12 +32,16 @@ namespace Ejercicio.Controllers
 
             return View();
         }
-
-        public ActionResult CargarExcel(string path)
+        
+        public ActionResult CargarExcel(HttpPostedFileBase doc)
         {
-            //path = @"C:\Users\Karen\Downloads\Calificaciones.xlsx";
-            //path = @"C:\Users\CAHE\Downloads\Calificaciones.xlsx";
+            string[] filename = doc.FileName.Split('.');
+
+            var path = Path.Combine(Server.MapPath("~/Downloads"), doc.FileName);
+            doc.SaveAs(path);
+
             var file = ReadExcelFile("Sheet1", path);
+            System.IO.File.Delete(path);
             var rows = file.Rows;
 
             var datos = Funciones.ObtenerDatos(rows);

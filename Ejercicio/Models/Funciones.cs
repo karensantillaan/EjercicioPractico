@@ -17,12 +17,6 @@ namespace Ejercicio.Models
             {                
                 Calificaciones layout = new Calificaciones();
                 var element = rows[i].ItemArray;
-                //var nombres = element[0];
-                //var apellidoPaterno = element[1];
-                //var apellidoMaterno = element[2];
-                //var Grado = element[3];
-                //var Grupo = element[4];
-                //var Calificacion = element[5];
 
                 layout.Nombres = element[0].ToString();
                 layout.ApellidoPaterno = element[1].ToString();

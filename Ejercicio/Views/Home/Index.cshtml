@@ -3,18 +3,22 @@
 }
 
 <div class="jumbotron">
-    <h2>@ViewBag.Title</h2>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <center>
+        <h3>@ViewBag.Title</h3>
+    </center>
 </div>
 
 @using (Html.BeginForm("CargarExcel", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-horizontal">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <h2>Subir Archivo</h2>
-                <input name="file" id="file" type="file" class="input-file" />
-                <button type="submit" id="uploadFile" class="btn btn-primary"> Guardar</button>
+                <input name="doc" id="doc" type="file" class="input-file" /><br />
+                <button type="submit" id="uploadFile" class="btn btn-success">
+                    <i class="glyphicon glyphicon-floppy-saved"></i>
+                    Guardar
+                </button>
             </div>
         </div>
     </div>
@@ -23,28 +27,18 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $(function () {
-                $('#file').on('change', function () {
-                    var filePath = $(this).val();
-                    console.log(filePath);
-                });
-            });
-            $(document).on("click", "#uploadFile", function () {
-                var path = $("#file").val();
-                $.ajax({
-                    async: false,
-                    type: 'GET',
-                    url: "@Url.Action("CargarExcel")",
-                    data: { path: filePath },
-                    processData: false,
-                    cache: false,
-                    success: function () {
-                        alert('Se cargó correctamente');
-                    },
-                    error: function (xhr, status) {
-                        alert('Ocurrió un error');
-                    }
-                });
+            $(document).on("click", "#uploadFile", function (e) {
+                var status = true; 
+                var file = $("#doc").val();
+                console.log(file);
+                if (!file) {
+                    swal("¡Error!", "Por favor ingrese un archivo para continuar", "warning");
+                    status = false; 
+                }
+
+                if (!status) {
+                    e.preventDefault();
+                }
             });
         });
     </script>
