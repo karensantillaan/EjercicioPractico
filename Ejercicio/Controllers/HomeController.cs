@@ -23,23 +23,28 @@ namespace Ejercicio.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult About(string Mejor, string Peor, decimal? Promedio, List<Funciones.Promedios> PromediosGrupos, string[] Nombres, decimal[] Calificaciones)
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Mejor = Mejor;
+            ViewBag.Peor = Peor;
+            ViewBag.Promedio = Promedio;
 
-            return View();
-        }
+            decimal[] data = new decimal[3];
+            data[0] = PromediosGrupos[0].Promedio1;
+            data[1] = PromediosGrupos[0].Promedio2;
+            data[2] = PromediosGrupos[0].Promedio3;
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Promedios = data;
+            ViewBag.Nombres = Nombres;
+            ViewBag.Calificaciones = Calificaciones;
 
             return View();
         }
 
         public ActionResult CargarExcel(string path)
         {
-            path = @"C:\Users\Karen\Downloads\Calificaciones.xlsx";
+            //path = @"C:\Users\Karen\Downloads\Calificaciones.xlsx";
+            //path = @"C:\Users\CAHE\Downloads\Calificaciones.xlsx";
             var file = ReadExcelFile("Sheet1", path);
             var rows = file.Rows;
 
@@ -52,13 +57,17 @@ namespace Ejercicio.Controllers
             var promedioCalificaciones = Funciones.PromedioFinal(datos);
 
             var promediosGrupos = Funciones.PromediosGrupos(datos);
-           
-            return View();            
+
+            var nombres = Funciones.NombresAlumnos(datos);
+            var calificaciones = Funciones.CalificacionesAlumnos(datos);
+
+            About(calificacionMayor, calificacionMenor, promedioCalificaciones, promediosGrupos, nombres, calificaciones);
+
+            return View("About");
         }
 
         private DataTable ReadExcelFile(string sheetName, string path)
         {
-
             using (OleDbConnection conn = new OleDbConnection())
             {
                 DataTable dt = new DataTable();
@@ -80,7 +89,6 @@ namespace Ejercicio.Controllers
                         da.Fill(dt);
                         return dt;
                     }
-
                 }
             }
         }

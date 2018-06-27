@@ -1,17 +1,32 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Gráfica";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-bar-chart"></i> Calificaciones
+    </div>
+    <div class="card-body">
+        <canvas id="CalificacionesAlumnos" width="100" height="50"></canvas>
+    </div>
+</div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<script src="~/Template/SB Admin/vendor/chart.js/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("CalificacionesAlumnos");
+    var PromediosGrados = new Chart(ctx, {
+        type: 'doughnut',
+        data = {
+            datasets: [{
+                data: @ViewBag.Promedios,
+            }],
+
+            labels: [
+                '1er. Grado',
+                '2do. Grado',
+                '3er. Grado'
+            ]
+        },
+        options: options
+    });
+</script>

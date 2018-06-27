@@ -125,6 +125,28 @@ namespace Ejercicio.Models
 
             return promediosGrupos;
         }
+                
+        public static string[] NombresAlumnos(List<Calificaciones> lista)
+        {
+            string[] data = new string[lista.Count()];
+            for (int i = 0; i < lista.Count; i++)
+            {
+                data[i] = lista[i].Nombres;
+            }
+
+            return data;
+        }
+
+        public static decimal[] CalificacionesAlumnos(List<Calificaciones> lista)
+        {
+            decimal[] data = new decimal[lista.Count()];
+            for (int i = 0; i < lista.Count; i++)
+            {
+                data[i] = lista[i].Calificacion;
+            }
+
+            return data;
+        }
 
         public class Calificaciones
         {
